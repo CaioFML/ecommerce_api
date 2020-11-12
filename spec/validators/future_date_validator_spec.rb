@@ -6,32 +6,32 @@ RSpec.describe FutureDateValidator do
     validates :date, future_date: true
   end
 
-  subject { Validatable.new }
+  subject(:validatable) { Validatable.new }
 
   context "when date is before current date" do
-    before { subject.date = 1.day.ago }
+    before { validatable.date = 1.day.ago }
 
     it { is_expected.to be_invalid }
 
     it "adds an error on model" do
-      subject.valid?
-      expect(subject.errors.keys).to include(:date)
+      validatable.valid?
+      expect(validatable.errors.keys).to include(:date)
     end
   end
 
   context "when date is equal current date" do
-    before { subject.date = Time.zone.now }
+    before { validatable.date = Time.zone.now }
 
-    it { expect(subject).to be_invalid }
+    it { is_expected.to be_invalid }
 
     it "adds an error on model" do
-      subject.valid?
-      expect(subject.errors.keys).to include(:date)
+      validatable.valid?
+      expect(validatable.errors.keys).to include(:date)
     end
   end
 
   context "when date is greater than current date" do
-    before { subject.date = Time.zone.now + 1.day }
+    before { validatable.date = 1.day.from_now }
 
     it { is_expected.to be_valid }
   end

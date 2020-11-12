@@ -11,6 +11,33 @@ RSpec.describe Coupon do
 
     it { is_expected.to validate_numericality_of(:discount_value).is_greater_than(0) }
     it { is_expected.to validate_numericality_of(:max_use).only_integer.is_greater_than_or_equal_to(0) }
+
+    context "when due date is in the past" do
+      before { subject.due_date = 1.day.ago }
+
+      it "adds an error" do
+        subject.valid?
+        expect(subject.errors.keys).to include :due_date
+      end
+    end
+
+    context "when due date is today" do
+      before { subject.due_date = Time.zone.now }
+
+      it "adds an error" do
+        subject.valid?
+        expect(subject.errors.keys).to include :due_date
+      end
+    end
+
+    context "when due date is in the future" do
+      before { subject.due_date = 1.day.from_now }
+
+      it "does not add an error" do
+        subject.valid?
+        expect(subject.errors.keys).to_not include :due_date
+      end
+    end
   end
 
   describe "enums" do
