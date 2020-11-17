@@ -117,4 +117,45 @@ RSpec.describe Admin::V1::CategoriesController do
       end
     end
   end
+
+  context "DELETE /categories/:id" do
+    subject(:destroy) { delete admin_v1_category_path(category), headers: auth_header(user) }
+
+    let!(:category) { create(:category) }
+
+    it 'removes Category' do
+      expect { destroy }.to change(Category, :count).by(-1)
+    end
+
+    it do
+      destroy
+
+      expect(response).to have_http_status(:no_content)
+    end
+
+    it "does not return any body content" do
+      destroy
+
+      expect(body_json).to_not be_present
+    end
+
+    it "removes all associated product categories" do
+      product_categories = create_list(:product_category, 3, category: category)
+
+      destroy
+
+      expected_product_categories = ProductCategory.where(id: product_categories.map(&:id))
+      expect(expected_product_categories.count).to eq 0
+    end
+
+    it "does not remove unassociated product categories" do
+      product_categories = create_list(:product_category, 3)
+
+      destroy
+
+      present_product_categories_ids = product_categories.map(&:id)
+      expected_product_categories = ProductCategory.where(id: present_product_categories_ids)
+      expect(expected_product_categories.ids).to contain_exactly(*present_product_categories_ids)
+    end
+  end
 end
