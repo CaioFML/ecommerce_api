@@ -63,4 +63,58 @@ RSpec.describe Admin::V1::CategoriesController do
       end
     end
   end
+
+  context "PATCH /categories/:id" do
+    subject(:patch_update) { patch admin_v1_category_path(category), headers: auth_header(user), params: params }
+
+    let(:category) { create(:category) }
+
+    context "with valid params" do
+      let(:new_name) { 'My new Category' }
+      let(:params) { { category: { name: new_name } }.to_json }
+
+      it "updates Category" do
+        patch_update
+
+        expect(category.reload.name).to eq new_name
+      end
+
+      it "returns updated Category" do
+        patch_update
+
+        expect(body_json['category']).to eq category.reload.as_json(only: %i(id name))
+      end
+
+      it do
+        patch_update
+
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context "with invalid params" do
+      let(:params) { { category: attributes_for(:category, name: nil) }.to_json }
+
+      it 'does not update Category' do
+        old_name = category.name
+
+        patch_update
+
+        category.reload
+        expect(category.name).to eq old_name
+      end
+
+      it 'returns error message' do
+        patch_update
+
+        expect(body_json['errors']['fields']).to have_key('name')
+      end
+
+      it do
+        patch_update
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
 end

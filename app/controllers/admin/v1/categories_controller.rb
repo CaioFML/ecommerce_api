@@ -8,6 +8,12 @@ class Admin::V1::CategoriesController < Admin::V1::ApiController
     save_category!
   end
 
+  def update
+    @category = Category.find(params[:id])
+    @category.attributes = category_params
+    save_category!
+  end
+
   private
 
   def category_params
