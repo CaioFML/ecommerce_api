@@ -1,4 +1,4 @@
-RSpec.describe Admin::V1::CategoriesController do
+RSpec.describe "Admin::V1::Categories as :admin" do
   let(:user) { create(:user) }
 
   context "GET /categories" do
