@@ -3,7 +3,7 @@ RSpec.describe "Admin::V1::Categories without authentication" do
     let(:url) { "/admin/v1/categories" }
     let!(:categories) { create_list(:category, 5) }
 
-    before(:each) { get url, headers: auth_header(user) }
+    before(:each) { get url }
 
     include_examples "unauthenticated access"
   end
