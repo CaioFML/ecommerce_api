@@ -3,18 +3,14 @@ class Admin::V1::ApiController < ApplicationController
 
   include Authenticable
 
+  include SimpleErrorRenderable
+  self.simple_error_partial = "shared/simple_error"
+
   rescue_from ForbiddenAccess do
     render_error(message: "Forbidden access", status: :forbidden)
   end
 
   before_action :restrict_access_for_admin!
-
-  def render_error(message: nil, fields: nil, status: :unprocessable_entity)
-    errors = {}
-    errors['fields'] = fields if fields.present?
-    errors['message'] = message if message.present?
-    render json: { errors: errors }, status: status
-  end
 
   def restrict_access_for_admin!
     raise ForbiddenAccess unless current_user.admin?
