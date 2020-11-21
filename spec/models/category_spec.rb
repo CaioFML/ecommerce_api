@@ -10,4 +10,5 @@ RSpec.describe Category do
   end
 
   include_examples "name searchable concern", :category
+  include_examples "paginatable concern", :category
 end
