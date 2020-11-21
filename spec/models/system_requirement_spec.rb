@@ -12,4 +12,7 @@ RSpec.describe SystemRequirement do
   describe "associations" do
     it { is_expected.to have_many(:games).dependent(:restrict_with_error) }
   end
+
+  it_behaves_like "name searchable concern", :system_requirement
+  it_behaves_like "paginatable concern", :system_requirement
 end

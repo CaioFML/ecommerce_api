@@ -7,4 +7,7 @@ RSpec.describe User do
   describe "enums" do
     it { is_expected.to define_enum_for(:profile).with_values({ admin: 0, client: 1 }) }
   end
+
+  it_behaves_like "name searchable concern", :user
+  it_behaves_like "paginatable concern", :user
 end

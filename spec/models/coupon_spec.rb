@@ -43,4 +43,7 @@ RSpec.describe Coupon do
   describe "enums" do
     it { is_expected.to define_enum_for(:status).with_values({ active: 1, inactive: 2 }) }
   end
+
+  it_behaves_like "name searchable concern", :coupon
+  it_behaves_like "paginatable concern", :coupon
 end
