@@ -8,4 +8,6 @@ RSpec.describe Category do
     it { is_expected.to have_many(:product_categories).dependent(:destroy) }
     it { is_expected.to have_many(:products).through(:product_categories) }
   end
+
+  include_examples "name searchable concern", :category
 end
