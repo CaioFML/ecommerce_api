@@ -1,12 +1,19 @@
 RSpec.describe FutureDateValidator do
-  class Validatable
-    include ActiveModel::Validations
+  let(:fake_model) do
+    Class.new do
+      include ActiveModel::Validations
 
-    attr_accessor :date
-    validates :date, future_date: true
+      def self.model_name
+        ActiveModel::Name.new(self, nil, "FakeModel")
+      end
+
+      attr_accessor :date
+
+      validates :date, future_date: true
+    end
   end
 
-  subject(:validatable) { Validatable.new }
+  subject(:validatable) { fake_model.new }
 
   context "when date is before current date" do
     before { validatable.date = 1.day.ago }

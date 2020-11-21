@@ -1,3 +1,3 @@
 json.category do
-  json.(@category, :id, :name)
+  json.call(@category, :id, :name)
 end

@@ -1,0 +1,21 @@
+AllCops:
+  Exclude:
+    - bin/**/*
+    - db/**/*
+    - tmp/**/*
+    - vendor/**/*
+    - node_modules/**/*
+    - config/initializers/**/*
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*.rb
