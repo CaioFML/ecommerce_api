@@ -1,31 +1,35 @@
-RSpec.describe "Admin::V1::Categories without authentication" do
-  context "GET #index" do
-    before { get admin_v1_categories_path }
+RSpec.describe Admin::V1::CategoriesController do
+  context "without authentication" do
+    describe "GET #index" do
+      before do
+        create_list(:category, 5)
 
-    let!(:categories) { create_list(:category, 5) }
+        get admin_v1_categories_path
+      end
 
-    include_examples "unauthenticated access"
-  end
+      include_examples "unauthenticated access"
+    end
 
-  context "POST #create" do
-    before { post admin_v1_categories_path }
+    describe "POST #create" do
+      before { post admin_v1_categories_path }
 
-    include_examples "unauthenticated access"
-  end
+      include_examples "unauthenticated access"
+    end
 
-  context "PATCH #update" do
-    before { patch admin_v1_category_path(category) }
+    describe "PATCH #update" do
+      before { patch admin_v1_category_path(category) }
 
-    let(:category) { create(:category) }
+      let(:category) { create(:category) }
 
-    include_examples "unauthenticated access"
-  end
+      include_examples "unauthenticated access"
+    end
 
-  context "DELETE #destroy" do
-    before { delete admin_v1_category_path(category) }
+    describe "DELETE #destroy" do
+      before { delete admin_v1_category_path(category) }
 
-    let!(:category) { create(:category) }
+      let!(:category) { create(:category) }
 
-    include_examples "unauthenticated access"
+      include_examples "unauthenticated access"
+    end
   end
 end

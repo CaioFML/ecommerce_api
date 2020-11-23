@@ -11,7 +11,6 @@ RSpec.describe Game do
 
   describe "associations" do
     it { is_expected.to belong_to :system_requirement }
-    it { is_expected.to belong_to :system_requirement }
-    it { is_expected.to have_one :product }
+    it { is_expected.to have_one(:product).dependent(:destroy) }
   end
 end

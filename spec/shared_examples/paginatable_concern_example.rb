@@ -1,6 +1,6 @@
 shared_examples "paginatable concern" do |factory_name|
   context "when records fits page size" do
-    let!(:records) { create_list(factory_name, 20) }
+    before { create_list(factory_name, 20) }
 
     context "when :page and :length are empty" do
       it "returns default 10 records" do
@@ -61,13 +61,13 @@ shared_examples "paginatable concern" do |factory_name|
 
       it "returns empty result" do
         paginated_records = described_class.paginate(page, length)
-        expect(paginated_records).to_not be_present
+        expect(paginated_records).not_to be_present
       end
     end
   end
 
   context "when records does not fit page size" do
-    let!(:records) { create_list(factory_name, 7) }
+    before { create_list(factory_name, 7) }
 
     context "when :page and :length are empty" do
       it "returns 7 records" do
@@ -92,7 +92,7 @@ shared_examples "paginatable concern" do |factory_name|
 
       it "returns empty result" do
         paginated_records = described_class.paginate(page, nil)
-        expect(paginated_records).to_not be_present
+        expect(paginated_records).not_to be_present
       end
     end
 
