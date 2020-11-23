@@ -1,7 +1,7 @@
 RSpec.describe "Admin::V1::Categories as :admin" do
   let(:user) { create(:user) }
 
-  context "GET /categories" do
+  context "GET #index" do
     subject(:get_index) { get admin_v1_categories_path, headers: auth_header(user) }
 
     let!(:categories) { create_list(:category, 5) }
@@ -19,7 +19,7 @@ RSpec.describe "Admin::V1::Categories as :admin" do
     end
   end
 
-  context "POST /categories" do
+  context "POST #create" do
     subject(:post_create) { post admin_v1_categories_path, headers: auth_header(user), params: params }
 
     context "with valid params" do
@@ -64,7 +64,7 @@ RSpec.describe "Admin::V1::Categories as :admin" do
     end
   end
 
-  context "PATCH /categories/:id" do
+  context "PATCH #update" do
     subject(:patch_update) { patch admin_v1_category_path(category), headers: auth_header(user), params: params }
 
     let(:category) { create(:category) }
@@ -118,7 +118,7 @@ RSpec.describe "Admin::V1::Categories as :admin" do
     end
   end
 
-  context "DELETE /categories/:id" do
+  context "DELETE #destroy" do
     subject(:destroy) { delete admin_v1_category_path(category), headers: auth_header(user) }
 
     let!(:category) { create(:category) }
