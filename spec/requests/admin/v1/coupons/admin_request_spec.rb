@@ -4,23 +4,21 @@ RSpec.describe Admin::V1::CouponsController do
     let(:coupons_attributes) { %i[id name code status discount_value max_use due_date] }
 
     describe "GET #index" do
-      describe "GET #index" do
-        subject(:get_index) { get admin_v1_coupons_path, headers: auth_header(user) }
+      subject(:get_index) { get admin_v1_coupons_path, headers: auth_header(user) }
 
-        let!(:coupon) { create_list(:coupon, 5) }
+      let!(:coupon) { create_list(:coupon, 5) }
 
-        it "returns all coupons" do
-          get_index
+      it "returns all coupons" do
+        get_index
 
-          expect(body_json["coupons"])
-            .to contain_exactly(*coupon.as_json(only: coupons_attributes))
-        end
+        expect(body_json["coupons"])
+          .to contain_exactly(*coupon.as_json(only: coupons_attributes))
+      end
 
-        it do
-          get_index
+      it do
+        get_index
 
-          expect(response).to have_http_status :ok
-        end
+        expect(response).to have_http_status :ok
       end
     end
 
@@ -50,8 +48,8 @@ RSpec.describe Admin::V1::CouponsController do
       context "with invalid params" do
         let(:params) { { coupon: attributes_for(:coupon, name: nil) }.to_json }
 
-        it "does not add a new SystemRequirement" do
-          expect { post_create }.not_to change(SystemRequirement, :count)
+        it "does not add a new Coupon" do
+          expect { post_create }.not_to change(Coupon, :count)
         end
 
         it "returns error message" do
