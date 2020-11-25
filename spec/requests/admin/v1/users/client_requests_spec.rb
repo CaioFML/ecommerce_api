@@ -32,4 +32,3 @@ RSpec.describe Admin::V1::UsersController do
     end
   end
 end
-
