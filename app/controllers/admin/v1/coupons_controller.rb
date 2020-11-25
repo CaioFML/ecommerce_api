@@ -33,7 +33,7 @@ module Admin
         return {} unless params.key?(:coupon)
 
         params.require(:coupon).permit(:id, :name, :code, :status, :discount_value,
-                                                   :max_use, :due_date)
+                                       :max_use, :due_date)
       end
 
       def save_coupon!
