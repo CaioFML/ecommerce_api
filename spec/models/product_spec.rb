@@ -8,6 +8,11 @@ RSpec.describe Product do
     it { is_expected.to validate_presence_of(:price) }
     it { is_expected.to validate_numericality_of(:price).is_greater_than(0) }
     it { is_expected.to validate_presence_of(:image) }
+    it { is_expected.to validate_presence_of(:status) }
+  end
+
+  describe "enums" do
+    it { is_expected.to define_enum_for(:status).with_values({ available: 1, unavailable: 2 }) }
   end
 
   describe "associations" do
