@@ -12,6 +12,15 @@ RSpec.describe Admin::V1::CategoriesController do
       include_examples "forbidden access"
     end
 
+    describe "GET #show" do
+      let(:category) { create(:category) }
+      let(:url) { "/admin/v1/categories/#{category.id}" }
+
+      before { get url, headers: auth_header(user) }
+
+      include_examples "forbidden access"
+    end
+
     describe "POST #create" do
       before { post admin_v1_categories_path, headers: auth_header(user) }
 

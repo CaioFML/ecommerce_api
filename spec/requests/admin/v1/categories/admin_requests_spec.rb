@@ -84,6 +84,22 @@ RSpec.describe Admin::V1::CategoriesController do
       end
     end
 
+    describe "GET #show" do
+      let(:category) { create(:category) }
+      let(:url) { "/admin/v1/categories/#{category.id}" }
+
+      it "returns requested Category" do
+        get url, headers: auth_header(user)
+        expected_category = category.as_json(only: %i(id name))
+        expect(body_json['category']).to eq expected_category
+      end
+
+      it "returns success status" do
+        get url, headers: auth_header(user)
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
     describe "POST #create" do
       subject(:post_create) { post admin_v1_categories_path, headers: auth_header(user), params: params }
 
