@@ -90,8 +90,8 @@ RSpec.describe Admin::V1::CategoriesController do
 
       it "returns requested Category" do
         get url, headers: auth_header(user)
-        expected_category = category.as_json(only: %i(id name))
-        expect(body_json['category']).to eq expected_category
+        expected_category = category.as_json(only: %i[id name])
+        expect(body_json["category"]).to eq expected_category
       end
 
       it "returns success status" do

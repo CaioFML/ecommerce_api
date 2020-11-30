@@ -4,7 +4,7 @@ RSpec.describe Admin::V1::ProductsController do
       let(:url) { "/admin/v1/products" }
       let!(:products) { create_list(:product, 5) }
 
-      before(:each) { get url }
+      before { get url }
 
       include_examples "unauthenticated access"
     end
@@ -12,7 +12,7 @@ RSpec.describe Admin::V1::ProductsController do
     context "POST /products" do
       let(:url) { "/admin/v1/products" }
 
-      before(:each) { post url }
+      before { post url }
 
       include_examples "unauthenticated access"
     end
@@ -21,7 +21,7 @@ RSpec.describe Admin::V1::ProductsController do
       let(:product) { create(:product) }
       let(:url) { "/admin/v1/products/#{product.id}" }
 
-      before(:each) { get url }
+      before { get url }
 
       include_examples "unauthenticated access"
     end
@@ -30,7 +30,7 @@ RSpec.describe Admin::V1::ProductsController do
       let(:product) { create(:product) }
       let(:url) { "/admin/v1/products/#{product.id}" }
 
-      before(:each) { patch url }
+      before { patch url }
 
       include_examples "unauthenticated access"
     end
@@ -39,7 +39,7 @@ RSpec.describe Admin::V1::ProductsController do
       let!(:product) { create(:product) }
       let(:url) { "/admin/v1/products/#{product.id}" }
 
-      before(:each) { delete url }
+      before { delete url }
 
       include_examples "unauthenticated access"
     end

@@ -6,7 +6,7 @@ RSpec.describe Admin::V1::ProductsController do
       let(:url) { "/admin/v1/products" }
       let!(:products) { create_list(:product, 5) }
 
-      before(:each) { get url, headers: auth_header(user) }
+      before { get url, headers: auth_header(user) }
 
       include_examples "forbidden access"
     end
@@ -14,7 +14,7 @@ RSpec.describe Admin::V1::ProductsController do
     context "POST /products" do
       let(:url) { "/admin/v1/products" }
 
-      before(:each) { post url, headers: auth_header(user) }
+      before { post url, headers: auth_header(user) }
 
       include_examples "forbidden access"
     end
@@ -23,7 +23,7 @@ RSpec.describe Admin::V1::ProductsController do
       let(:product) { create(:product) }
       let(:url) { "/admin/v1/products/#{product.id}" }
 
-      before(:each) { get url, headers: auth_header(user) }
+      before { get url, headers: auth_header(user) }
 
       include_examples "forbidden access"
     end
@@ -32,7 +32,7 @@ RSpec.describe Admin::V1::ProductsController do
       let(:product) { create(:product) }
       let(:url) { "/admin/v1/products/#{product.id}" }
 
-      before(:each) { patch url, headers: auth_header(user) }
+      before { patch url, headers: auth_header(user) }
 
       include_examples "forbidden access"
     end
@@ -41,7 +41,7 @@ RSpec.describe Admin::V1::ProductsController do
       let!(:product) { create(:product) }
       let(:url) { "/admin/v1/products/#{product.id}" }
 
-      before(:each) { delete url, headers: auth_header(user) }
+      before { delete url, headers: auth_header(user) }
 
       include_examples "forbidden access"
     end

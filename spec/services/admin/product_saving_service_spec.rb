@@ -7,8 +7,10 @@ RSpec.describe Admin::ProductSavingService do
 
       context "with valid params" do
         let!(:game) { product.productable }
-        let(:params) { { name: "New product", category_ids: new_categories.map(&:id),
-                         productable_attributes: { developer: "New company" } } }
+        let(:params) do
+          { name: "New product", category_ids: new_categories.map(&:id),
+            productable_attributes: { developer: "New company" } }
+        end
 
         it "updates product" do
           service = described_class.new(params, product)
@@ -28,7 +30,7 @@ RSpec.describe Admin::ProductSavingService do
           service = described_class.new(params, product)
           service.call
           product.reload
-          expect(product.categories.ids).to contain_exactly *new_categories.map(&:id)
+          expect(product.categories.ids).to contain_exactly(*new_categories.map(&:id))
         end
       end
 
@@ -36,10 +38,10 @@ RSpec.describe Admin::ProductSavingService do
         let(:product_params) { attributes_for(:product, name: "") }
 
         it "raises NotSavedProductError" do
-          expect {
+          expect do
             service = described_class.new(product_params, product)
             service.call
-          }.to raise_error(Admin::ProductSavingService::NotSavedProductError)
+          end.to raise_error(Admin::ProductSavingService::NotSavedProductError)
         end
 
         it "sets validation :errors" do
@@ -48,16 +50,16 @@ RSpec.describe Admin::ProductSavingService do
         end
 
         it "doesn't update :product" do
-          expect {
+          expect do
             error_proof_call(product_params, product)
             product.reload
-          }.to_not change(product, :name)
+          end.not_to change(product, :name)
         end
 
         it "keeps old categories" do
           service = error_proof_call(product_params, product)
           product.reload
-          expect(product.categories.ids).to contain_exactly *old_categories.map(&:id)
+          expect(product.categories.ids).to contain_exactly(*old_categories.map(&:id))
         end
       end
 
@@ -65,10 +67,10 @@ RSpec.describe Admin::ProductSavingService do
         let(:game_params) { { productable_attributes: attributes_for(:game, developer: "") } }
 
         it "raises NotSavedProductError" do
-          expect {
+          expect do
             service = described_class.new(game_params, product)
             service.call
-          }.to raise_error(Admin::ProductSavingService::NotSavedProductError)
+          end.to raise_error(Admin::ProductSavingService::NotSavedProductError)
         end
 
         it "sets validation :errors" do
@@ -77,16 +79,16 @@ RSpec.describe Admin::ProductSavingService do
         end
 
         it "doesn't update :productable" do
-          expect {
+          expect do
             error_proof_call(game_params, product)
             product.productable.reload
-          }.to_not change(product.productable, :developer)
+          end.not_to change(product.productable, :developer)
         end
 
         it "keeps old categories" do
           service = error_proof_call(game_params, product)
           product.reload
-          expect(product.categories.ids).to contain_exactly *old_categories.map(&:id)
+          expect(product.categories.ids).to contain_exactly(*old_categories.map(&:id))
         end
       end
     end
@@ -98,21 +100,23 @@ RSpec.describe Admin::ProductSavingService do
         let!(:categories) { create_list(:category, 2) }
         let(:game_params) { attributes_for(:game, system_requirement_id: system_requirement.id) }
         let(:product_params) { attributes_for(:product, productable: "game") }
-        let(:params) { product_params.merge(category_ids: categories.map(&:id),
-                                            productable_attributes: game_params) }
+        let(:params) do
+          product_params.merge(category_ids: categories.map(&:id),
+                               productable_attributes: game_params)
+        end
 
         it "creates a new product" do
-          expect {
+          expect do
             service = described_class.new(params)
             service.call
-          }.to change(Product, :count).by(1)
+          end.to change(Product, :count).by(1)
         end
 
         it "creates :productable" do
-          expect {
+          expect do
             service = described_class.new(params)
             service.call
-          }.to change(Game, :count).by(1)
+          end.to change(Game, :count).by(1)
         end
 
         it "sets created product" do
@@ -124,7 +128,7 @@ RSpec.describe Admin::ProductSavingService do
         it "sets categories" do
           service = described_class.new(params)
           service.call
-          expect(service.product.categories.ids).to contain_exactly *categories.map(&:id)
+          expect(service.product.categories.ids).to contain_exactly(*categories.map(&:id))
         end
       end
 
@@ -134,10 +138,10 @@ RSpec.describe Admin::ProductSavingService do
         let(:params) { product_params.merge(productable_attributes: game_params) }
 
         it "raises NotSavedProductError" do
-          expect {
+          expect do
             service = described_class.new(params)
             service.call
-          }.to raise_error(Admin::ProductSavingService::NotSavedProductError)
+          end.to raise_error(Admin::ProductSavingService::NotSavedProductError)
         end
 
         it "sets validation :errors" do
@@ -146,21 +150,21 @@ RSpec.describe Admin::ProductSavingService do
         end
 
         it "does not create a new product" do
-          expect {
+          expect do
             error_proof_call(params)
-          }.to_not change(Product, :count)
+          end.not_to change(Product, :count)
         end
 
         it "does not create a :productable" do
-          expect {
+          expect do
             error_proof_call(params)
-          }.to_not change(Game, :count)
+          end.not_to change(Game, :count)
         end
 
         it "doen not create category association" do
-          expect {
+          expect do
             error_proof_call(params)
-          }.to_not change(ProductCategory, :count)
+          end.not_to change(ProductCategory, :count)
         end
       end
 
@@ -170,10 +174,10 @@ RSpec.describe Admin::ProductSavingService do
         let(:params) { product_params.merge(productable_attributes: game_params) }
 
         it "raises NotSavedProductError" do
-          expect {
+          expect do
             service = described_class.new(params)
             service.call
-          }.to raise_error(Admin::ProductSavingService::NotSavedProductError)
+          end.to raise_error(Admin::ProductSavingService::NotSavedProductError)
         end
 
         it "sets validation :errors" do
@@ -182,21 +186,21 @@ RSpec.describe Admin::ProductSavingService do
         end
 
         it "does not create a new product" do
-          expect {
+          expect do
             error_proof_call(params)
-          }.to_not change(Product, :count)
+          end.not_to change(Product, :count)
         end
 
         it "does not create a :productable" do
-          expect {
+          expect do
             error_proof_call(params)
-          }.to_not change(Game, :count)
+          end.not_to change(Game, :count)
         end
 
         it "doen not create category association" do
-          expect {
+          expect do
             error_proof_call(params)
-          }.to_not change(ProductCategory, :count)
+          end.not_to change(ProductCategory, :count)
         end
       end
 
@@ -204,16 +208,16 @@ RSpec.describe Admin::ProductSavingService do
         let(:product_params) { attributes_for(:product) }
 
         it "raises NotSavedProductError" do
-          expect {
+          expect do
             service = described_class.new(product_params)
             service.call
-          }.to raise_error(Admin::ProductSavingService::NotSavedProductError)
+          end.to raise_error(Admin::ProductSavingService::NotSavedProductError)
         end
 
         it "does not create a new product" do
-          expect {
+          expect do
             error_proof_call(product_params)
-          }.to_not change(Product, :count)
+          end.not_to change(Product, :count)
         end
 
         it "sets validation :errors" do
@@ -222,15 +226,15 @@ RSpec.describe Admin::ProductSavingService do
         end
 
         it "does not create a :productable" do
-          expect {
+          expect do
             error_proof_call(product_params)
-          }.to_not change(Game, :count)
+          end.not_to change(Game, :count)
         end
 
         it "doen not create category association" do
-          expect {
+          expect do
             error_proof_call(product_params)
-          }.to_not change(ProductCategory, :count)
+          end.not_to change(ProductCategory, :count)
         end
       end
     end
@@ -241,7 +245,7 @@ def error_proof_call(*params)
   service = described_class.new(*params)
   begin
     service.call
-  rescue => e
+  rescue StandardError => e
   end
-  return service
+  service
 end
