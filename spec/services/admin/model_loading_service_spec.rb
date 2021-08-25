@@ -24,7 +24,7 @@ describe Admin::ModelLoadingService do
         service = described_class.new(Category.all, params)
         service.call
         expected_categories = search_categories[4..7]
-        expect(service.records).to contain_exactly *expected_categories
+        expect(service.records).to contain_exactly(*expected_categories)
       end
 
       it "sets right :page" do
@@ -63,7 +63,7 @@ describe Admin::ModelLoadingService do
         service = described_class.new(Category.all, nil)
         service.call
         expected_categories = categories[0..9]
-        expect(service.records).to contain_exactly *expected_categories
+        expect(service.records).to contain_exactly(*expected_categories)
       end
 
       it "sets right :page" do

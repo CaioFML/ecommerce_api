@@ -12,7 +12,6 @@ Rails.application.routes.draw do
   end
 
   namespace :storefront do
-    namespace :v1 do
-    end
+    namespace :v1
   end
 end

@@ -1,6 +1,6 @@
 RSpec.describe Admin::ProductSavingService do
   describe "#call" do
-    context "sending loaded product" do
+    context "when sending loaded product" do
       let!(:new_categories) { create_list(:category, 2) }
       let!(:old_categories) { create_list(:category, 2) }
       let!(:product) { create(:product, categories: old_categories) }
@@ -57,7 +57,7 @@ RSpec.describe Admin::ProductSavingService do
         end
 
         it "keeps old categories" do
-          service = error_proof_call(product_params, product)
+          error_proof_call(product_params, product)
           product.reload
           expect(product.categories.ids).to contain_exactly(*old_categories.map(&:id))
         end
@@ -86,7 +86,7 @@ RSpec.describe Admin::ProductSavingService do
         end
 
         it "keeps old categories" do
-          service = error_proof_call(game_params, product)
+          error_proof_call(game_params, product)
           product.reload
           expect(product.categories.ids).to contain_exactly(*old_categories.map(&:id))
         end
@@ -231,7 +231,7 @@ RSpec.describe Admin::ProductSavingService do
           end.not_to change(Game, :count)
         end
 
-        it "doen not create category association" do
+        it "does not create category association" do
           expect do
             error_proof_call(product_params)
           end.not_to change(ProductCategory, :count)
@@ -245,7 +245,8 @@ def error_proof_call(*params)
   service = described_class.new(*params)
   begin
     service.call
-  rescue StandardError => e
+  rescue StandardError => error
+    Rails.logger.info error
   end
   service
 end

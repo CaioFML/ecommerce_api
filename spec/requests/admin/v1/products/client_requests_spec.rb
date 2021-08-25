@@ -2,16 +2,20 @@ RSpec.describe Admin::V1::ProductsController do
   context "with user client" do
     let(:user) { create(:user, profile: :client) }
 
-    context "GET /products" do
+    describe "GET /products" do
       let(:url) { "/admin/v1/products" }
-      let!(:products) { create_list(:product, 5) }
+      let(:products) { create_list(:product, 5) }
 
-      before { get url, headers: auth_header(user) }
+      before do
+        products
+
+        get url, headers: auth_header(user)
+      end
 
       include_examples "forbidden access"
     end
 
-    context "POST /products" do
+    describe "POST /products" do
       let(:url) { "/admin/v1/products" }
 
       before { post url, headers: auth_header(user) }
@@ -19,7 +23,7 @@ RSpec.describe Admin::V1::ProductsController do
       include_examples "forbidden access"
     end
 
-    context "GET /products/:id" do
+    describe "GET /products/:id" do
       let(:product) { create(:product) }
       let(:url) { "/admin/v1/products/#{product.id}" }
 
@@ -28,7 +32,7 @@ RSpec.describe Admin::V1::ProductsController do
       include_examples "forbidden access"
     end
 
-    context "PATCH /products/:id" do
+    describe "PATCH /products/:id" do
       let(:product) { create(:product) }
       let(:url) { "/admin/v1/products/#{product.id}" }
 
@@ -37,7 +41,7 @@ RSpec.describe Admin::V1::ProductsController do
       include_examples "forbidden access"
     end
 
-    context "DELETE /products/:id" do
+    describe "DELETE /products/:id" do
       let!(:product) { create(:product) }
       let(:url) { "/admin/v1/products/#{product.id}" }
 

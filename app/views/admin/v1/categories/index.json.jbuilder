@@ -3,5 +3,5 @@ json.categories do
 end
 
 json.meta do
-  json.partial! 'shared/pagination', pagination: @loading_service.pagination
+  json.partial! "shared/pagination", pagination: @loading_service.pagination
 end

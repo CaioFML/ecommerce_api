@@ -10,7 +10,7 @@ RSpec.describe Admin::V1::CategoriesController do
       include_examples "unauthenticated access"
     end
 
-    context "GET #show" do
+    describe "GET #show" do
       let(:category) { create(:category) }
       let(:url) { "/admin/v1/categories/#{category.id}" }
 

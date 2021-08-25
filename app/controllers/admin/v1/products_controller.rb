@@ -1,7 +1,7 @@
 module Admin
   module V1
     class ProductsController < ApiController
-      before_action :load_product, only: %i(show update destroy)
+      before_action :load_product, only: %i[show update destroy]
 
       def index
         @loading_service = Admin::ModelLoadingService.new(Product.all, searchable_params)
@@ -45,14 +45,15 @@ module Admin
       end
 
       def product_params
-        return {} unless params.has_key?(:product)
+        return {} unless params.key?(:product)
+
         permitted_params = params.require(:product).permit(:id, :name, :description, :image,
                                                            :price, :productable,
                                                            :status, category_ids: [])
         permitted_params.merge(productable_params)
       end
 
-      def run_service(product = nil)
+      def run_service(_product = nil)
         @saving_service = Admin::ProductSavingService.new(product_params.to_h, @product)
         @saving_service.call
         @product = @saving_service.product
@@ -61,7 +62,8 @@ module Admin
 
       def productable_params
         productable_type = params[:product][:productable] || @product&.productable_type&.underscore
-        return unless productable_type.present?
+        return if productable_type.blank?
+
         send("#{productable_type}_params")
       end
 
