@@ -1,6 +1,6 @@
 # README
 
-This is an project of ecommerce made with bootcamp of OnebitCode!
+This is an project of ecommerce in development made with bootcamp of OnebitCode! 
 
 ## Setup 
 
