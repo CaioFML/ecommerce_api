@@ -1,24 +1,48 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Setup 
 
-Things you may want to cover:
+### Prerequisites
 
-* Ruby version
+The setups steps expect following tools installed on the system.
 
-* System dependencies
+- Git
+- Ruby 2.7.1
+- Rails 6.0.3.4
 
-* Configuration
+1. Clone this repository:
 
-* Database creation
+```
+    $ git clone git@github.com:CaioFML/ecommerce_api.git
+```
 
-* Database initialization
+2. Go to the folder and bundle install:
 
-* How to run the test suite
+```
+    cd ecommerce_api
+    bundle install
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+3. Create, setup the database and run task to populate database:
 
-* Deployment instructions
+```
+    $ rails db:setup
+    $ rails dev:prime
+```
 
-* ...
+4. Running tests:
+
+```
+    $ rails db:test:prepare
+    $ bundle exec rspec
+```
+
+5. Running rubocop:
+
+```
+    $ bundle exec rubocop
+```
+
+6. Import this file on postman to see the model of endpoints:
+
+[Model of endpoints postman](https://drive.google.com/file/d/1J_nygNiWBJNwdIFewSkEVqlS7RgthJrR/view?usp=sharing)
