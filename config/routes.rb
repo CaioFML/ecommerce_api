@@ -10,8 +10,4 @@ Rails.application.routes.draw do
       resources :products
     end
   end
-
-  namespace :storefront do
-    namespace :v1
-  end
 end
